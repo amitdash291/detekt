@@ -42,6 +42,18 @@ class FindingsAssert(actual: List<Finding>) :
         }
     }
 
+    fun hasSourceLocation(start: Pair<Int, Int>, end: Pair<Int, Int>) = apply {
+        val finding = actual.single()
+        val expectedStart = SourceLocation(start.first, start.second)
+        if (finding.location.source != expectedStart) {
+            failWithMessage("Expected source location to be $expectedStart but was ${finding.location.source}")
+        }
+        val expectedEnd = SourceLocation(end.first, end.second)
+        if (finding.location.endSource != expectedEnd) {
+            failWithMessage("Expected source location to be $expectedEnd but was ${finding.location.endSource}")
+        }
+    }
+
     fun hasSourceLocation(line: Int, column: Int) = apply {
         hasSourceLocations(SourceLocation(line, column))
     }
